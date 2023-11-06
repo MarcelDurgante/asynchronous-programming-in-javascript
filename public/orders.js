@@ -1,5 +1,5 @@
 //  Axios returns a lot more information than the data from the API. It also includes the HTTP headers, status codes, etc. So, let's change from destructuring the object and just have a single result parameter that will have the entire Axios result object. And then we'll need to change from data to result.data. Next, let's examine the result status code. This is the HTTP status code of the request. With HTTP status codes, a 200 is a success. So, we'll use simplified logic that anything that's not a 200 is an error. In this case, if it's success, we'll show the order list. And if it fails, we'll show an error. 
-axios.get("http://localhost:3000/api/orders/999").then(({ data }) => { // requesting an order that does not exist (/999) to se how to "Handling Errors with Promises"
+axios.get("http://localhost:3000/api/orders").then(({ data }) => { // requesting an order that does not exist (/999) to se how to "Handling Errors with Promises"
     showOrderList("#order-list", data); // if it's success, we'll show the order list
   }).catch((err) => showError("#order-list", err)); // anything that's not a 200 is an error so, if it fails, we'll show an error.
   
