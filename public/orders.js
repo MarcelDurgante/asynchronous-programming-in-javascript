@@ -14,6 +14,16 @@ uncaught (in promise) Error: Request failed with status code 404                
 
 */
 
+/* 2nd output (after chanding get function using .catch to handle the rejected state): 
+
+GET http://localhost:3000/api/orders/999 404 (Not Found)                                                                  spread.js:25
+
+Obs: in the localhost:3000/api/orders/999 , we can see the error message:
+
+Error: Request failed with status code 404
+
+*/
+
 /* Summary:
 
 With your console openned as you browse to localhost:3000/myOrders You'll notice that our orders list is empty. The screen just has the Orders header and nothing else. And in your console, you have two errors: 
