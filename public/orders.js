@@ -24,7 +24,7 @@ Error: Request failed with status code 404
 
 */
 
-/* Summary:
+/* 1st Summary:
 
 With your console openned as you browse to localhost:3000/myOrders You'll notice that our orders list is empty. The screen just has the Orders header and nothing else. And in your console, you have two errors: 
 
@@ -52,5 +52,23 @@ With your console openned as you browse to localhost:3000/myOrders You'll notice
  .catch((error) => {
    /do stuff with the error
  });
+
+*/
+
+/* 2nd summary:
+
+This time, under the Orders heading, is a message that says there was an error and that the request failed with a 404. Additionally, when you look at your console, you should still see an error that the get request returned a 404
+
+But you should not see an uncaught in promise error because now you've handled the error case of your promise. 
+
+Briefly return to your code. Notice that inside the catch, all we're doing is displaying the error. That's for demonstration purposes. If this was a real application, you might take other actions here. 
+
+What you do inside your catch block is dependent upon the use case of your particular application. 
+
+Additionally, what data the error or reason contains is up to the library that you're consuming. 
+
+Now that we've seen how errors work, let's put the URL back to one that returns data. If you were to refresh the My Orders page right now, you'd see the order data once again. Or, more correctly, you would see some of the order data. The order status information is blank. 
+
+How can we make sure to fill that information out? I'll show you how you can use multiple promises to get the data you need in the next clip.
 
 */
