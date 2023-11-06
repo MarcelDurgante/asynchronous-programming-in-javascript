@@ -31,7 +31,7 @@ axios
       // We're mapping over our list of orders so that we can look up each order's status,
       return {
         ...o,
-        orderStatus: statuses.find((d) => d.id === o.orderStatusID).description, //  and that's what we're doing with the statuses.find function. We're finding the status description of that exact order. Once we've added the order status property to each order
+        orderStatus: statuses.find((d) => d.id === o.orderStatusId).description, //  and that's what we're doing with the statuses.find function. We're finding the status description of that exact order. Once we've added the order status property to each order
       };
     });
     showOrderList("#order-list", orders); // we can call the familiar showOrderList
