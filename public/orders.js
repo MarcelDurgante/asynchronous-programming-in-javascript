@@ -1,49 +1,17 @@
-let statusReq = axios.get("http://localhost:3000/api/orderStatuses");
-let addressReq = axios.get("http://localhost:3000/api/addresses");
-let addressTypeReq = axios.get("http://localhost:3000/api/addressTypes");
+/* Awaiting a Call: 
 
-let statuses = [];
-let addresses = [];
-let addressTypes = [];
+We're going to use async/await to fetch our list of orders. 
 
-showWaiting();
+Much like we did with consuming promises, we want to do a simple HTTP request. 
 
-Promise.allSettled([statusReq, addressReq, addressTypeReq])
-  .then(([statusRes, addressRes, addressTypeRes]) => {
-    // this code will check the status property
-    if (statusRes.status === "fulfilled") {
-      statuses = statusRes.value.data;
-    } else {
-      window.alert("Order status error: " + statusRes.reason.message);
-    }
+The code here has the await keyword before the axios.get function call. This highlights that you can use await on functions that return promises. That is, you don't need some separate async/await version of Axios. 
 
-    if (addressRes.status === "fulfilled") {
-      addresses = addressRes.value.data;
-    } else {
-      window.alert("Addresses error: " + addressRes.reason.message);
-    }
+Additionally, since this is now making this promise asynchronous call, you can assign the data parameter to the value of the get call. 
 
-    if (addressTypeRes.status === "fulfilled") {
-      addressTypes = addressTypeRes.value.data;
-    } else {
-      window.alert("Address Type error: " + addressTypeRes.reason.message);
-    }
+There's no .then function that you need to process this data in. Or more accurately, you can destructure the result of that get call into a data parameter. 
 
-    return axios.get("http://localhost:3000/api/orders");
-  })
-  .then(({ data }) => {
-    let orders = data.map((d) => {
-      const addr = addresses.find((a) => a.id === d.shippingAddress);
+*/
 
-      return {
-        ...d,
-        orderStatus: statuses.find((s) => s.id === d.orderStatusId).description,
-        shippingAddressText: `${addr.street} ${addr.city}, ${addr.state} ${addr.zipCode}`,
-      };
-    });
-    showOrderList("#order-list", orders);
-  })
-  .catch((err) => showError("#order-list", err))
-  .finally(() => {
-    setTimeout(hideWaiting, 1500);
-  });
+const {data} = await axios.get("http://localhost:3000/api/orders");
+
+showOrderList('#order-list', data);
