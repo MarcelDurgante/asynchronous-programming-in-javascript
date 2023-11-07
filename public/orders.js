@@ -36,3 +36,15 @@ We again get our list of orders, each with an order status, which is what we'd e
 And when we look at our Network tab in the console, we see that the order status call is first, and the orders call is second, again what we would expect since we sequenced our API calls in this order.
 
 */
+
+/* Final summary: 
+
+ if you want to chain another HTTP request, all you have to do is add another await statement to that API call. 
+ 
+ The challenge is that handling async/await in this fashion makes all of the calls sequential. 
+ 
+ So, what if you want to make concurrent requests? 
+ 
+ I'll show you how async/await can break free from the sequential calls in the next clip.
+
+*/
