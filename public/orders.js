@@ -11,9 +11,9 @@ showWaiting();
 async function get() {
   try {
     const { data: statuses } = await axios.get(
-      "http://localhost:3000/api/orderStatuses"
+      "http://localhost:3000/api/orderStatuses" // In this code, we have requested our order statuses. But we had to wait 1.5 seconds, because that's how long that request takes. So, let's make a couple of tweaks. 
     );
-    const { data } = await axios.get("http://localhost:3000/api/orders/");
+    const { data } = await axios.get("http://localhost:3000/api/orders/"); // And then, once that data was returned, we requested our orders.
     const orders = data.map((o) => {
       return {
         ...o,
