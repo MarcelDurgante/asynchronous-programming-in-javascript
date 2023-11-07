@@ -1,3 +1,11 @@
+/* Chaining Async / Await: 
+
+Promises can be chained to combat race conditions. Let's see how to accomplish the same thing with async/await.
+
+
+
+*/
+
 showWaiting();
 
 async function get() {
