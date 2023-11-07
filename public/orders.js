@@ -1,3 +1,11 @@
+/* Awaiting Concurrent Requests - Breaking Free from Sequential Calls: 
+
+We've been using async/await in a way that makes sure to call asynchronous functions in a truly sequential fashion, and sometimes that's great. 
+But other times, you don't want functions to depend on one another. 
+Don't worry though. You can still use async/await.
+
+*/
+
 showWaiting();
 
 async function get() {
