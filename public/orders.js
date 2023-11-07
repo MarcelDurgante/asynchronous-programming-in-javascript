@@ -15,16 +15,19 @@ As we've already seen, our orders list shows the order status, but it also has a
 */
 let statusReq = axios.get("http://localhost:3000/api/orderStatuses");
 let addressReq = axios.get("http://localhost:3000/api/addresses");
+let addressTypeReq = axios.get('http://localhost:3000/api/addressTypes'); // there is no metadata for address types. We expect this call to fail with a 404 error
 
 let statuses = [];
 let addresses = [];
+let addresseTypes = [];
 
 showWaiting();
 
-Promise.all([statusReq, addressReq])
-  .then(([statusRes, addressRes]) => {
+Promise.all([statusReq, addressReq, addressReq, addressTypeReq])
+  .then(([statusRes, addressRes, addressTypeRes]) => {
     statuses = statusRes.data;
     addresses = addressRes.data;
+    addresseTypes = addressTypeRes.data
 
     return axios.get("http://localhost:3000/api/orders");
   })
@@ -45,3 +48,33 @@ Promise.all([statusReq, addressReq])
   .finally(() => {
     setTimeout(hideWaiting, 1500);
   });
+
+  /* output: 
+console:
+       GET http://localhost:3000/api/addressTypes 404 (Not Found)                       spread.js:25
+       
+  OBS: there is no 'uncaught error' as we are already handling it in line 47
+
+screen: Error: Request failed with status code 404
+  
+  */
+
+/* Summary: 
+
+Notice what happens. 
+
+Not only does the page update nearly instantly with a 404 error, but if you look in the Network tab, it updated before the order status call even completed. 
+
+Let's rerun that one more time and pay attention to the network call and see what happens. 
+
+The //> all function will wait until either all promises are fulfilled or until the first promise is rejected. 
+
+This can be useful in a situation where you don't want to continue if any of your promises are rejected. 
+
+For example, if the address type data had been something so essential that we couldn't possibly continue without it, we wouldn't want to wait for other promises to complete before we continued by handling that error. 
+
+But what if that's not the situation? What if the data is so independent that you don't really care if one or two calls fail and you want to wait until they're all settled? 
+
+I'll show you the two things we need to change to make that happen next.
+
+*/
