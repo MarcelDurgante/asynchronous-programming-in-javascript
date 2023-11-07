@@ -15,6 +15,7 @@ Remember that async/await is syntactic sugar on top of promises, so we have the 
 */
 
 async function get() {
+  showWaiting();
   // let's start by awaiting a Promise.all function call. This will wait until all of the promises we pass in are complete before continuing on to the next line.
   await Promise.all([
     // Also remember that async functions return an implicit promise. So, let's add the first promise to our Promise.all call.
@@ -26,17 +27,18 @@ async function get() {
       );
       showMessage("Statused Fetched"); // 2. Finally, it's calling a new function, showMessage, that we'll see in a minute when we reload the app.
     })(), // 1. Also notice that after the anonymous function is declared, it's immediately executed with the open and closed parentheses.
-    // 3. Next, let's add our second promise, this time for our orders call.  
+    // 3. Next, let's add our second promise, this time for our orders call.
     (async () => {
       const { data } = await axios.get("http://localhost:3000/api/orders");
-      showOrderList('#order-list', data);
+      showOrderList("#order-list", data);
     })(),
   ]);
-  // 4. With this construct, we now have two promises in the array of our Promise.all function And as we saw earlier in the course, Promise.all will kick off each of the functions and wait until they're all complete before returning. 
+  // 4. With this construct, we now have two promises in the array of our Promise.all function And as we saw earlier in the course, Promise.all will kick off each of the functions and wait until they're all complete before returning.
   // And since we're awaiting the Promise.all call, the get function won't end until all of our promises are done, meaning that if we added code after our Promise.all function, it wouldn't get executed until all the promises were complete.
-};
+}
 
 get();
+hideWaiting();
 
 /* Summary: 
 
