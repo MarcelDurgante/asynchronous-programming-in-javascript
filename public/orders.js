@@ -97,3 +97,13 @@ Promise.allSettled([statusReq, addressReq, addressTypeReq]) // "Promise.allSettl
   }                                                  }
   
   */
+
+  /* Final summary: 
+  
+  By changing the name of the function from all to allSettled and by expecting a different object shape in the then function, you're able to queue up several promises that wait until they're all settled before calling the then function. 
+  
+  In the previous clips, we've seen functions that operate on a list of promises and return a list of promises. 
+  
+  But what if you only need a single promise returned? We'll look at that next.
+  
+  */
