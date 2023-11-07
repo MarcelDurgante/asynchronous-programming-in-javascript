@@ -34,3 +34,23 @@ Uncaught SyntaxError: await is only valid in async functions and the top level b
 This time, when you reload the page, you don't see any console errors.
 
 */
+
+/* Asynchronous Calls summary: 
+
+On the left, we have our promise‑based approach. And on the right, we have our async/await‑based approach. 
+
+They're both accomplishing the same thing, and they're doing so in similar ways. 
+
+However, with await, it might be slightly more clear the order the code is getting executed in. 
+
+Much like with promises, what happens when an API call fails? Well, the next clip will show you a familiar way to handle errors with async/await.
+
+promise.js                                      await.js
+
+axios.get('/api/orders/')                       const tmp = async function() {
+  .then(({ data }) => {                           const { data } = await
+    showOrderList('#orders", data);                 axios.get('/api/orders');
+  }); 
+                                                  showOrderList('#orders', data);
+                                                }
+*/
