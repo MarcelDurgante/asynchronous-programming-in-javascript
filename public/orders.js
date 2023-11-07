@@ -80,3 +80,28 @@ Promise.allSettled([statusReq, addressReq, addressTypeReq])
   .finally(() => {
     setTimeout(hideWaiting, 1500);
   });
+
+  /* Summary: 
+  
+  But one situation where it can be used as if you've got multiple endpoints that are distributed geographically. They all return the same data so you don't really care which one succeeds; you just want the fastest possible response time. 
+  
+  In that case, if you used any, that's exactly what you get. Whichever in point returned quickest would win, and your code could move on. 
+  
+  As I mentioned a few minutes ago, any waits until all promises reject before it fails. 
+
+      -> Every: Returns true if a provided function is true for every item in the array.
+      -> Some: Returns true if a provided function is true for at least one item in the array.
+      -> Promise.all: Executes code only if every promise is successful (similar to every).
+      -> Promise.allSettled: Calls the "then" function even if some promises fail .
+      -> Promise.any: Succeeds if any promise succeeds, doesn't fail unless all promises reject (similar to some).
+
+  Promise.all()                    Promise.any()
+
+  Accepts array of promises        Accepts array of promises
+  Returns an array of results      Returns a single value
+  Catches first rejection          Only catches if all reject 
+
+
+  > What if you didn't want that and instead wanted the first response to come back whatever it was? We'll talk about that next.
+  
+  */
