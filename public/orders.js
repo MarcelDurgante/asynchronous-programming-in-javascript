@@ -15,3 +15,10 @@ axios
     });
     showOrderList("#order-list", orders);
   }).catch ((err) => showError('#order-list', err)); 
+
+  /* output: 
+  
+  TypeError: Cannot read properties of undefined (reading 'orderStatusId')
+
+  
+  */
