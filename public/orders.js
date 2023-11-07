@@ -33,3 +33,23 @@ Promise.allSettled([statusReq, addressReq, addressReq, addressTypeReq]) // "Prom
   .finally(() => {
     setTimeout(hideWaiting, 1500);
   });
+
+  /* Differences between *all* and *allSettled*: 
+  
+  > 1st =>  First the data that is passed back is different. All will return results objects as part of an array. 
+  
+  But allSettled returns a different shape. It has an array, but for each object, there's two keys. 
+  
+    - The status key will be either fulfilled or rejected like you see on the screen
+  
+    - The second key will be either value if the status is fulfilled or reason if the status is rejected. 
+    
+  That is, the then function on //> allSettled will return all promises even if they're rejected, which leads to the second difference. 
+
+  > 2nd => We don't need a catch block because the promise will resolve with an array of data including the rejected promises.
+  
+  And even though a catch block is not specifically needed, it's still a good practice to include it. 
+  
+  It'll help catch any errors that might occur inside of your then block.
+  
+  */
