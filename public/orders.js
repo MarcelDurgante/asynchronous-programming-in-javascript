@@ -12,12 +12,25 @@ There's no .then function that you need to process this data in. Or more accurat
 
 */
 
-const {data} = await axios.get("http://localhost:3000/api/orders");
+// await mus be used inside an async function
+showWaiting();
+async function get() {
+  const { data } = await axios.get("http://localhost:3000/api/orders");
 
-showOrderList('#order-list', data);
+  showOrderList("#order-list", data);
+}
 
-/* Error output: 
+get();
+hideWaiting();
+
+/* Error output 1: 
 
 Uncaught SyntaxError: await is only valid in async functions and the top level bodies of modules (at orders.js:15:16)
+
+*/
+
+/* output 2: 
+
+This time, when you reload the page, you don't see any console errors.
 
 */
