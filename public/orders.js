@@ -13,21 +13,30 @@ And this is part of the power of asynchronous programming. You don't have to wai
 As we've already seen, our orders list shows the order status, but it also has a blank field for each of the order's shipping addresses. And in the last clip, we wrote some code to make sure we didn't load our orders until the order statuses were fetched. We want to do something kind of similar with our addresses as well
 
 */
+let statusReq = axios.get("http://localhost:3000/api/orderStatuses");
+let addressReq = axios.get("http://localhost:3000/api/addresses");
 
 let statuses = [];
+let addresses = [];
+
 showWaiting();
 
-axios
-  .get("http://localhost:3000/api/orderStatuses")
-  .then(({ data }) => {
-    statuses = data;
+Promise.all([statusReq, addressReq])
+  .then(([statusRes, addressRes]) => {
+    statuses = statusRes.data;
+    addresses = addressRes.data;
+
     return axios.get("http://localhost:3000/api/orders");
   })
   .then(({ data }) => {
-    let orders = data.map((o) => {
+    let orders = data.map((d) => {
+      console.log(d);
+      const addr = addresses.find((a) => a.id === d.shippingAddress);
+      
       return {
-        ...o,
-        orderStatus: statuses.find((d) => d.id === o.orderStatusId).description,
+        ...d,
+        orderStatus: statuses.find((s) => s.id === d.orderStatusId).description,
+        shippingAddressText: `${addr.street} ${addr.city}, ${addr.state} ${addr.zipCode}`,
       };
     });
     showOrderList("#order-list", orders);
