@@ -4,21 +4,44 @@ let addressTypeReq = axios.get('http://localhost:3000/api/addressTypes'); // the
 
 let statuses = [];
 let addresses = [];
-let addresseTypes = [];
+let addressTypes = [];
 
 showWaiting();
 
-Promise.allSettled([statusReq, addressReq, addressReq, addressTypeReq]) // "Promise.allSettled()" Creates a Promise that is resolved with an array of results when all of the provided Promises resolve or reject.
+Promise.allSettled([statusReq, addressReq, addressTypeReq]) // "Promise.allSettled()" Creates a Promise that is resolved with an array of results when all of the provided Promises resolve or reject.
   .then(([statusRes, addressRes, addressTypeRes]) => {
-    statuses = statusRes.data;
-    addresses = addressRes.data;
-    addresseTypes = addressTypeRes.data
+    // this code will check the status property
+    /* 
+    Remember, our two choices are either fulfilled or rejected. 
+    
+    If it's fulfilled, it will assign the data to the array. Because it's fulfilled, we have to use the 'value' property in order to access our actual Axios value. 
+    
+    If it's not fulfilled, we're simply going to use window.alert to let the user know the error using 'reason'. 
+    
+    With that all done, let's return again to the browser. When you refresh, after about 1.5 seconds, there's an alert to let you know that the addressTypes call failed, that it's not a valid route for our app.
+    */
+    if(statusRes.status === 'fulfilled') {
+      statuses = statusRes.value.data;
+    } else {
+      window.alert("Order status error: " + statusRes.reason.message);
+    }
+
+    if(addressRes.status === 'fulfilled') {
+      addresses = addressRes.value.data;
+    } else {
+      window.alert("Addresses error: " + addressRes.reason.message);
+    }
+
+    if(addressTypeRes.status === 'fulfilled') {
+      addressTypes = addressTypeRes.value.data;
+    } else {
+      window.alert("Address Type error: " + addressTypeRes.reason.message);
+    }
 
     return axios.get("http://localhost:3000/api/orders");
   })
   .then(({ data }) => {
     let orders = data.map((d) => {
-      console.log(d);
       const addr = addresses.find((a) => a.id === d.shippingAddress);
       
       return {
@@ -33,6 +56,18 @@ Promise.allSettled([statusReq, addressReq, addressReq, addressTypeReq]) // "Prom
   .finally(() => {
     setTimeout(hideWaiting, 1500);
   });
+
+  /* output: 
+  
+  Window alert:
+
+  localhost:3000 says
+
+  Address Type error: Request failed with status code 404
+
+  OBS: Then, once you clear that alert (by clicking 'OK'), the rest of the data is there again.
+  
+  */
 
   /* Differences between *all* and *allSettled*: 
   
@@ -51,5 +86,14 @@ Promise.allSettled([statusReq, addressReq, addressReq, addressTypeReq]) // "Prom
   And even though a catch block is not specifically needed, it's still a good practice to include it. 
   
   It'll help catch any errors that might occur inside of your then block.
+
+! Data returned by *allSettled*
+
+  fulfille.js                                        rejected.js
+
+  {                                                  {
+    status: 'fulfilled',                               status: 'rejected', 
+    value: {}                                          reason: {}
+  }                                                  }
   
   */
