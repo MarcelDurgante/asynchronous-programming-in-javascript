@@ -8,18 +8,26 @@ To see how to make parallel calls, start by commenting out the code that we've w
 
 We need to start by creating our function as an async function and then calling it. 
 
-Now the question is, what do we put inside of that function to make it work in parallel? 
+> Now the question is, what do we put inside of that function to make it work in parallel? 
 
 Remember that async/await is syntactic sugar on top of promises, so we have the ability to mix the two.
 
 */
 
 async function get() {
-
+  // let's start by awaiting a Promise.all function call. This will wait until all of the promises we pass in are complete before continuing on to the next line.
+  await Promise.all([
+    // Also remember that async functions return an implicit promise. So, let's add the first promise to our Promise.all call.
+    (async () => {
+      const { data } = await axios.get(
+        "http://localhost/3000/api/orderStatuses"
+      );
+      showMessage("Statused Fetched");
+    })(),
+  ]);
 }
 
 get();
-
 
 /* showWaiting();
 
